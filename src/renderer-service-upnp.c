@@ -75,6 +75,7 @@
 #define RSU_INTERFACE_OFFSET "offset"
 #define RSU_INTERFACE_POSITION "position"
 #define RSU_INTERFACE_TRACKID "trackid"
+#define RSU_INTERFACE_TRACK_NUMBER "TrackNumber"
 
 #define RSU_INTERFACE_RAISE "Raise"
 #define RSU_INTERFACE_QUIT "Quit"
@@ -87,6 +88,7 @@
 #define RSU_INTERFACE_OPEN_URI "OpenUri"
 #define RSU_INTERFACE_SEEK "Seek"
 #define RSU_INTERFACE_SET_POSITION "SetPosition"
+#define RSU_INTERFACE_GOTO_TRACK "GotoTrack"
 
 #define RSU_INTERFACE_CANCEL "Cancel"
 
@@ -208,6 +210,10 @@ static const gchar g_rsu_server_introspection[] =
 	"      <arg type='x' name='"RSU_INTERFACE_POSITION"'"
 	"           direction='in'/>"
 	"    </method>"
+	"    <method name='"RSU_INTERFACE_GOTO_TRACK"'>"
+	"      <arg type='u' name='"RSU_INTERFACE_TRACK_NUMBER"'"
+	"           direction='in'/>"
+	"    </method>"
 	"    <property type='s' name='"RSU_INTERFACE_PROP_PLAYBACK_STATUS"'"
 	"       access='read'/>"
 	"    <property type='d' name='"RSU_INTERFACE_PROP_RATE"'"
@@ -236,6 +242,10 @@ static const gchar g_rsu_server_introspection[] =
 	"    <property type='x' name='"RSU_INTERFACE_PROP_POSITION"'"
 	"       access='read'/>"
 	"    <property type='a{sv}' name='"RSU_INTERFACE_PROP_METADATA"'"
+	"       access='read'/>"
+	"    <property type='u' name='"RSU_INTERFACE_PROP_CURRENT_TRACK"'"
+	"       access='read'/>"
+	"    <property type='u' name='"RSU_INTERFACE_PROP_NUMBER_OF_TRACKS"'"
 	"       access='read'/>"
 	"  </interface>"
 	"  <interface name='"RSU_INTERFACE_PUSH_HOST"'>"
@@ -507,6 +517,10 @@ static void prv_process_async_task(rsu_task_t *task)
 	case RSU_TASK_SET_POSITION:
 		rsu_upnp_set_position(g_context.upnp, task,
 				      prv_async_task_complete);
+		break;
+	case RSU_TASK_GOTO_TRACK:
+		rsu_upnp_goto_track(g_context.upnp, task,
+				    prv_async_task_complete);
 		break;
 	case RSU_TASK_HOST_URI:
 		rsu_upnp_host_uri(g_context.upnp, task,
@@ -810,6 +824,8 @@ static void prv_rsu_player_method_call(GDBusConnection *conn,
 	else if (!strcmp(method, RSU_INTERFACE_SET_POSITION))
 		task = rsu_task_set_position_new(invocation, object,
 						 parameters);
+	else if (!strcmp(method, RSU_INTERFACE_GOTO_TRACK))
+		task = rsu_task_goto_track_new(invocation, object, parameters);
 	else
 		goto finished;
 

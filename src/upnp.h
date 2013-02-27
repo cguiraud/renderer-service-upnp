@@ -75,6 +75,8 @@ void rsu_upnp_seek(rsu_upnp_t *upnp, rsu_task_t *task,
 		   rsu_upnp_task_complete_t cb);
 void rsu_upnp_set_position(rsu_upnp_t *upnp, rsu_task_t *task,
 			   rsu_upnp_task_complete_t cb);
+void rsu_upnp_goto_track(rsu_upnp_t *upnp, rsu_task_t *task,
+			 rsu_upnp_task_complete_t cb);
 void rsu_upnp_host_uri(rsu_upnp_t *upnp, rsu_task_t *task,
 		       rsu_upnp_task_complete_t cb);
 void rsu_upnp_remove_uri(rsu_upnp_t *upnp, rsu_task_t *task,

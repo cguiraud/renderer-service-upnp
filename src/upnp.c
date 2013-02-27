@@ -672,6 +672,31 @@ void rsu_upnp_set_position(rsu_upnp_t *upnp, rsu_task_t *task,
 	RSU_LOG_DEBUG("Exit");
 }
 
+void rsu_upnp_goto_track(rsu_upnp_t *upnp, rsu_task_t *task,
+			 rsu_upnp_task_complete_t cb)
+{
+	rsu_device_t *device;
+	rsu_async_task_t *cb_data = (rsu_async_task_t *)task;
+
+	RSU_LOG_DEBUG("Enter");
+
+	device = rsu_device_from_path(task->path, upnp->server_udn_map);
+
+	if (!device) {
+		cb_data->cb = cb;
+		cb_data->error = g_error_new(RSU_ERROR,
+					     RSU_ERROR_OBJECT_NOT_FOUND,
+					     "Cannot locate a device"
+					     " for the specified "
+					     "object");
+		(void) g_idle_add(rsu_async_task_complete, cb_data);
+	} else {
+		rsu_device_goto_track(device, task, cb);
+	}
+
+	RSU_LOG_DEBUG("Exit");
+}
+
 void rsu_upnp_host_uri(rsu_upnp_t *upnp, rsu_task_t *task,
 		       rsu_upnp_task_complete_t cb)
 {

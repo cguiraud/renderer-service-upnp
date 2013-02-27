@@ -228,11 +228,6 @@ interface.  The main points of interest are noted below:
 
 - The Shuffle property is not implemented.
 
-- A new property, TransportPlaySpeeds has been added.  It is an array of
-  doubles that corresponds to the allowed play speed values supported by the
-  renderer.  This property allows clients to set the Rate property with
-  a value that will be accepted by the DMR.
-
 - The Seek signal is not implemented yet.
 
 - The first parameter to SetPosition is ignored, and any valid d-Bus
@@ -241,6 +236,30 @@ interface.  The main points of interest are noted below:
 - PropertiesChanged signals are emitted via the org.freedesktop.DBus.Properties
   interface of a server object instance when org.mpris.MediaPlayer2.Player
   interface properties value change.
+
+- Some new properties have been added, they are described below:
+
+|------------------------------------------------------------------------------|
+|     Name            |  Type  |m/o*|              Description                 |
+|------------------------------------------------------------------------------|
+| TransportPlaySpeeds |   ad   | m  | Allowed play speed values supported by   |
+|                     |        |    | the renderer. It allows clients to set   |
+|                     |        |    | the Rate property with a value that will |
+|                     |        |    | be accepted by the DMR.                  |
+|------------------------------------------------------------------------------|
+| CurrentTrack        |    u   | m  | The the sequence number of the currently |
+|                     |        |    | selected track.                          |
+|------------------------------------------------------------------------------|
+| NumberOfTracks      |    u   | m  | the number of tracks in the currently    |
+|                     |        |    | selected media.                          |
+-------------------------------------------------------------------------------|
+
+- A new method has been added, it is described below:
+
+GotoTrack(u TrackNumber) -> void
+
+Performs a seek operation to the specified track number.
+
 
 org.mpris.MediaPlayer2.TrackList and org.mpris.MediaPlayer2.Playlists
 ---------------------------------------------------------------------

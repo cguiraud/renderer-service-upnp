@@ -116,6 +116,8 @@ void rsu_device_seek(rsu_device_t *device, rsu_task_t *task,
 		     rsu_upnp_task_complete_t cb);
 void rsu_device_set_position(rsu_device_t *device, rsu_task_t *task,
 			     rsu_upnp_task_complete_t cb);
+void rsu_device_goto_track(rsu_device_t *device, rsu_task_t *task,
+			     rsu_upnp_task_complete_t cb);
 void rsu_device_host_uri(rsu_device_t *device, rsu_task_t *task,
 			 rsu_host_service_t *host_service,
 			 rsu_upnp_task_complete_t cb);

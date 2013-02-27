@@ -45,6 +45,7 @@ enum rsu_task_type_t_ {
 	RSU_TASK_OPEN_URI,
 	RSU_TASK_SEEK,
 	RSU_TASK_SET_POSITION,
+	RSU_TASK_GOTO_TRACK,
 	RSU_TASK_HOST_URI,
 	RSU_TASK_REMOVE_URI
 };
@@ -78,6 +79,7 @@ struct rsu_task_open_uri_t_ {
 typedef struct rsu_task_seek_t_ rsu_task_seek_t;
 struct rsu_task_seek_t_ {
 	gint64 position;
+	guint32 track_number;
 };
 
 typedef struct rsu_task_host_uri_t_ rsu_task_host_uri_t;
@@ -130,6 +132,8 @@ rsu_task_t *rsu_task_previous_new(GDBusMethodInvocation *invocation,
 rsu_task_t *rsu_task_seek_new(GDBusMethodInvocation *invocation,
 			      const gchar *path, GVariant *parameters);
 rsu_task_t *rsu_task_set_position_new(GDBusMethodInvocation *invocation,
+				      const gchar *path, GVariant *parameters);
+rsu_task_t *rsu_task_goto_track_new(GDBusMethodInvocation *invocation,
 				      const gchar *path, GVariant *parameters);
 rsu_task_t *rsu_task_open_uri_new(GDBusMethodInvocation *invocation,
 				  const gchar *path, GVariant *parameters);

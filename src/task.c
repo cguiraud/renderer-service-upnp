@@ -231,6 +231,17 @@ rsu_task_t *rsu_task_set_position_new(GDBusMethodInvocation *invocation,
 	return task;
 }
 
+rsu_task_t *rsu_task_goto_track_new(GDBusMethodInvocation *invocation,
+				    const gchar *path, GVariant *parameters)
+{
+	rsu_task_t *task = prv_device_task_new(RSU_TASK_GOTO_TRACK,
+					       invocation, path, NULL);
+
+	g_variant_get(parameters, "(u)", &task->ut.seek.track_number);
+
+	return task;
+}
+
 rsu_task_t *rsu_task_open_uri_new(GDBusMethodInvocation *invocation,
 				  const gchar *path, GVariant *parameters)
 {
